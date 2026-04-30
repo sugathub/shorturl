@@ -1,19 +1,24 @@
 const mongoose = require("mongoose");
 
-const urlSchema = new mongoosePopulatedDocumentMarker.urlSchema({
-    shortId:{
-        type:String,
-        required:true,
-        unique:true,
+const urlSchema = new mongoose.Schema({
+    shortId: {   // ✅ consistent naming
+        type: String,
+        required: true,
+        unique: true,
     },
-    redirectURl:{
-        type:Sting,
+    redirectURL: {   // ✅ fixed typo
+        type: String,
         required: true,
     },
-    vistHistory:[{timetamp:{type:Number}}],
-    timestamp:true
+    visitHistory: [
+        {
+            timestamp: { type: Date, default: Date.now } // ✅ better type
+        }
+    ]
+}, {
+    timestamps: true // ✅ correct usage
 });
 
-const Url = mongoose.model("url",urlSchema);
+const URL = mongoose.model("URL", urlSchema);
 
 module.exports = URL;
