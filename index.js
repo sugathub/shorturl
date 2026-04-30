@@ -2,6 +2,8 @@ const express = require("express");
 
 const { connectToMongoDB } = require("./connect");
 const urlRoute = require('./routes/url');
+const URL = require('./models/url');
+
 
 const app = express();
 const port = 8001;
@@ -16,5 +18,31 @@ app.use(express.json());
 
 // ✅ Correct route + correct variable name
 app.use('/url', urlRoute);
+
+app.get('/:shortId', async (req, res) => {
+    const shortId = req.params.shortId;
+
+    try {
+        const entry = await URL.findOneAndUpdate(
+            { shortId },
+            {
+                $push: {
+                    visitHistory: {
+                        timestamp: Date.now(), // ✅ correct structure
+                    },
+                },
+            },
+            { new: true }
+        );
+
+        if (!entry) {
+            return res.status(404).send("URL not found"); // ✅ safety
+        }
+
+        res.redirect(entry.redirectURL); // ✅ fixed typo
+    } catch (err) {
+        res.status(500).send("Server error");
+    }
+});
 
 app.listen(port, () => console.log(`Server started at port: ${port}`));
