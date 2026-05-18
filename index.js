@@ -1,11 +1,13 @@
 const express = require("express");
-
+const path = require('path');
 const { connectToMongoDB } = require("./connect");
-const urlRoute = require('./routes/url');
- const staticRouter = require('./routes/staticRouter');
+
 
 const URL = require('./models/url');
-const path = require('path');
+
+const urlRoute = require('./routes/url');
+const staticRouter = require('./routes/staticRouter');
+const userRoute = require('./routes/user');
 
 const app = express();
 const port = 8001;
@@ -24,6 +26,8 @@ app.use(express.urlencoded({extended: false}));
 
 // ✅ Correct route + correct variable name
 app.use('/url', urlRoute);
+
+app.use('/user', urlRoute);
 
 app.use('/',staticRouter);
 

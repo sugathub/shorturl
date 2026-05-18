@@ -19,6 +19,8 @@ const urlSchema = new mongoose.Schema({
     timestamps: true // ✅ correct usage
 });
 
+
+// Create Model and Perform CRUD
 const URL = mongoose.model("URL", urlSchema);
 
 module.exports = URL;
