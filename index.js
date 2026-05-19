@@ -27,7 +27,7 @@ app.use(express.urlencoded({extended: false}));
 // ✅ Correct route + correct variable name
 app.use('/url', urlRoute);
 
-app.use('/user', urlRoute);
+app.use('/user', userRoute);
 
 app.use('/',staticRouter);
 
