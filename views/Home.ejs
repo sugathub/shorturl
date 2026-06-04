@@ -7,82 +7,154 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen">
 
-<div class="max-w-5xl mx-auto p-8">
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white">
 
-    <h2 class="text-4xl font-bold text-center text-blue-600 mb-8">
-        URL Shortener
-    </h2>
-
-    <% if (locals.id){ %>
-        <div class="bg-green-100 border border-green-400 text-green-700 p-4 rounded-lg mb-6">
-            <p class="font-semibold">
-                URL Generated:
-                <a
-                    href="http://localhost:8001/<%= id %>"
-                    target="_blank"
-                    class="text-blue-600 underline"
-                >
-                    http://localhost:8001/<%= id %>
-                </a>
-            </p>
-        </div>
-    <% } %>
-
-    <!-- Form -->
-    <div class="bg-white shadow-md rounded-lg p-6 mb-8">
-        <form method="POST" action="/url" class="flex gap-4">
-            <input
-                name="url"
-                type="text"
-                placeholder="https://example.com"
-                class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-
-            <button
-                type="submit"
-                class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
-            >
-                Generate
-            </button>
-        </form>
+    <!-- Background Effects -->
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-cyan-500/20 blur-3xl rounded-full"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/20 blur-3xl rounded-full"></div>
     </div>
 
-    <!-- Table -->
-    <% if(locals.urls) { %>
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="max-w-6xl mx-auto p-8">
+        
+
+        <!-- Heading -->
+        <h2 class="text-5xl font-extrabold text-center mb-3 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+            🚀 URL Shortener
+        </h2>
+
+        <p class="text-center text-slate-400 mb-10">
+            Create, manage and track your shortened URLs
+        </p>
+
+        <!-- Generated URL -->
+        <% if (locals.id) { %>
+            <div class="bg-green-500/10 border border-green-500/30 text-green-300 p-5 rounded-2xl mb-8 backdrop-blur">
+                <p class="font-semibold">
+                    URL Generated:
+                    <a
+                        href="http://localhost:8001/<%= id %>"
+                        target="_blank"
+                        class="underline text-cyan-400 break-all"
+                    >
+                        http://localhost:8001/<%= id %>
+                    </a>
+                </p>
+            </div>
+        <% } %>
+
+        <!-- Form -->
+        <div class="bg-white/5 backdrop-blur-lg border border-white/10 shadow-2xl rounded-3xl p-6 mb-8">
+            <form method="POST" action="/url" class="flex gap-4">
+
+                <input
+                    name="url"
+                    type="text"
+                    placeholder="https://example.com"
+                    class="flex-1 bg-slate-900 border border-slate-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                >
+
+                <button
+                    type="submit"
+                    class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:scale-105 transition-all duration-300"
+                >
+                    Generate
+                </button>
+
+            </form>
+        </div>
+
+        <!-- URLs Table -->
+        <% if (locals.urls && urls.length > 0) { %>
+
+        <div class="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+
             <table class="w-full">
-                <thead class="bg-blue-600 text-white">
+
+                <thead class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white">
                     <tr>
-                        <th class="px-4 py-3 text-left">S. No</th>
-                        <th class="px-4 py-3 text-left">Short ID</th>
-                        <th class="px-4 py-3 text-left">Redirect URL</th>
-                        <th class="px-4 py-3 text-left">Clicks</th>
+                        <th class="px-4 py-4 text-left">#</th>
+                        <th class="px-4 py-4 text-left">Short ID</th>
+                        <th class="px-4 py-4 text-left">Original URL</th>
+                        <th class="px-4 py-4 text-left">Clicks</th>
+                        <th class="px-4 py-4 text-left">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
+
                     <% urls.forEach((url, index) => { %>
-                        <tr class="border-b hover:bg-gray-50">
-                            <td class="px-4 py-3"><%= index + 1 %></td>
-                            <td class="px-4 py-3 font-medium">
+
+                        <tr class="border-b border-slate-700 hover:bg-white/5 transition">
+
+                            <td class="px-4 py-4">
+                                <%= index + 1 %>
+                            </td>
+
+                            <td class="px-4 py-4 font-semibold text-cyan-400">
                                 <%= url.shortId %>
                             </td>
-                            <td class="px-4 py-3 break-all">
+
+                            <td class="px-4 py-4 break-all text-slate-300">
                                 <%= url.redirectURL %>
                             </td>
-                            <td class="px-4 py-3">
+
+                            <td class="px-4 py-4">
                                 <%= url.visitHistory.length %>
                             </td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
-        </div>
-    <% } %>
 
-</div>
+                            <td class="px-4 py-4">
+                                <div class="flex gap-2">
+
+                                    <button
+                                        onclick="copyUrl('<%= host %>/<%= url.shortId %>')"
+                                        class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg transition"
+                                    >
+                                        Copy
+                                    </button>
+
+                                    <form
+                                        action="/url/delete/<%= url.shortId %>"
+                                        method="POST"
+                                        onsubmit="return confirm('Delete this URL?')"
+                                    >
+                                        <button
+                                            type="submit"
+                                            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
+                                        >
+                                            Delete
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <% } %>
+
+    </div>
+
+    <script>
+        function copyUrl(url) {
+            navigator.clipboard.writeText(url)
+                .then(() => {
+                    alert("Short URL copied!");
+                })
+                .catch((err) => {
+                    console.error("Failed to copy:", err);
+                });
+        }
+    </script>
 
 </body>
 </html>

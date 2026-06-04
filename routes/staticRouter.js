@@ -6,7 +6,9 @@ const URL = require('../models/url');
 
 router.get('/', async (req,res)=>{
     if(!req.user) return res.redirect('/login');
-    const allUrls = await URL.find({createdBy: req.user_id});
+   const allUrls = await URL.find({
+    createdBy: req.user._id
+});
     return res.render('Home',{
         urls : allUrls,
     });
@@ -22,3 +24,8 @@ router.get('/login',(req,res)=>{
     return res.render("login");
 });
 module.exports = router;
+
+router.get('/logout',(req,res)=>{
+    res.clearCookie('uid');
+    res.redirect('/login');
+});

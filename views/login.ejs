@@ -7,57 +7,91 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
 
-    <div class="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
-        
-        <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">
-            Login
-        </h1>
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white flex items-center justify-center">
 
-        <form action="/user/login" method="POST" class="space-y-4">
+    <!-- Background Effects -->
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-cyan-500/20 blur-3xl rounded-full"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/20 blur-3xl rounded-full"></div>
+    </div>
 
-            <div>
-                <label class="block text-gray-700 mb-2">
-                    Email
-                </label>
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    <div class="w-full max-w-md">
+
+        <div class="bg-white/5 backdrop-blur-lg border border-white/10 shadow-2xl rounded-3xl p-8">
+
+            <h1 class="text-4xl font-extrabold text-center mb-3 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+                Welcome Back
+            </h1>
+
+            <p class="text-center text-slate-400 mb-8">
+                Sign in to manage your shortened URLs
+            </p>
+
+            <% if(locals.error){ %>
+                <div class="bg-red-500/10 border border-red-500/30 text-red-300 p-4 rounded-xl mb-6">
+                    <%= error %>
+                </div>
+            <% } %>
+
+            <form action="/user/login" method="POST" class="space-y-5">
+
+                <div>
+                    <label class="block text-slate-300 mb-2">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        required
+                        class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 mb-2">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required
+                        class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    >
+                </div>
+
+                <button
+                    type="submit"
+                    class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white py-3 rounded-xl font-semibold hover:scale-105 transition-all duration-300"
                 >
-            </div>
+                    Login
+                </button>
+                <div class="mt-4">
+ <a
+    href="/user/guest"
+    class="block w-full text-center bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-semibold transition-all duration-300"
+>
+    Continue as Guest
+</a>
+</div>
 
-            <div>
-                <label class="block text-gray-700 mb-2">
-                    Password
-                </label>
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    required
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            </form>
+
+            <p class="text-center mt-8 text-slate-400">
+                Don't have an account?
+                <a
+                    href="/signup"
+                    class="text-cyan-400 hover:text-cyan-300 font-semibold"
                 >
-            </div>
+                    Sign Up
+                </a>
+            </p>
 
-            <button
-                type="submit"
-                class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-            >
-                Login
-            </button>
-
-        </form>
-
-        <p class="text-center mt-6 text-gray-600">
-            Don't have an account?
-            <a href="/signup" class="text-blue-600 hover:underline">
-                Sign Up
-            </a>
-        </p>
+        </div>
 
     </div>
 

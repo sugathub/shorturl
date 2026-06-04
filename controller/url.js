@@ -41,8 +41,20 @@ async function handleGetAnalytics(req, res) {
     }
 }
 
+async function handleDeleteURL(req, res) {
+    const shortId = req.params.shortId;
+
+    await URL.deleteOne({
+        shortId,
+        createdBy: req.user._id,
+    });
+
+    return res.redirect("/");
+}
+
 
 module.exports = {
     handleGenerateNewShortURL,
     handleGetAnalytics,
+    handleDeleteURL,
 };
