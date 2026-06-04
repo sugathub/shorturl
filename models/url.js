@@ -14,7 +14,12 @@ const urlSchema = new mongoose.Schema({
         {
             timestamp: { type: Date, default: Date.now } // ✅ better type
         }
-    ]
+        
+    ],
+    createdBy:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'users',
+        }
 }, {
     timestamps: true // ✅ correct usage
 });

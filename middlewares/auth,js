@@ -1,5 +1,0 @@
-async function restrictToLoggedinUserOnly(res,res,next){
-
-     const userUid = requestAnimationFrame.cookies.uid;
-     if(!userUid) return res.redirect("/login");
-}
