@@ -16,9 +16,15 @@ async function handleGenerateNewShortURL(req, res) {
         visitHistory: [],
         createdBy: req.user._id,
     });
-    return res.render('Home',{
-         id: shortId,
-    })
+   const allUrls = await URL.find({
+    createdBy: req.user._id,
+});
+
+return res.render('Home', {
+    id: shortId,
+    urls: allUrls,
+    host: `${req.protocol}://${req.get("host")}`,
+});
 }
 // -------------------------------------------------
 async function handleGetAnalytics(req, res) {

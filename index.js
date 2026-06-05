@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const path = require('path');
 const { connectToMongoDB } = require("./connect");
@@ -13,10 +14,10 @@ const staticRouter = require('./routes/staticRouter');
 const userRoute = require('./routes/user');
 
 const app = express();
-const port = 8001;
-
+const port = process.env.PORT || 8001;
 // ✅ Correct DB connection handling
-connectToMongoDB("mongodb://127.0.0.1:27017/short-url")
+console.log(process.env.MONGO_URL);
+connectToMongoDB(process.env.MONGO_URL)
 .then(() => console.log("MongoDB connected"))
 .catch((err) => console.log("MongoDB error:", err));
 

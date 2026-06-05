@@ -9,9 +9,10 @@ router.get('/', async (req,res)=>{
    const allUrls = await URL.find({
     createdBy: req.user._id
 });
-    return res.render('Home',{
-        urls : allUrls,
-    });
+   return res.render("Home", {
+    urls: allUrls,
+    host: `${req.protocol}://${req.get("host")}`,
+});
 })
 
 
