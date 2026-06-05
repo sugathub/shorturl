@@ -16,7 +16,7 @@ const userRoute = require('./routes/user');
 const app = express();
 const port = process.env.PORT || 8001;
 // ✅ Correct DB connection handling
-console.log(process.env.MONGO_URL);
+// console.log(process.env.MONGO_URL);
 connectToMongoDB(process.env.MONGO_URL)
 .then(() => console.log("MongoDB connected"))
 .catch((err) => console.log("MongoDB error:", err));
