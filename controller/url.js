@@ -14,11 +14,19 @@ async function handleGenerateNewShortURL(req, res) {
         shortId: shortId,              // ✅ correct field
         redirectURL: body.url,         // ✅ correct value
         visitHistory: [],
+        createdBy: req.user._id,
     });
+   const allUrls = await URL.find({
+    createdBy: req.user._id,
+});
 
-    return res.json({ id: shortId });
+return res.render('Home', {
+    id: shortId,
+    urls: allUrls,
+    host: `${req.protocol}://${req.get("host")}`,
+});
 }
-
+// -------------------------------------------------
 async function handleGetAnalytics(req, res) {
     const shortId = req.params.shortId;
 
@@ -39,8 +47,20 @@ async function handleGetAnalytics(req, res) {
     }
 }
 
+async function handleDeleteURL(req, res) {
+    const shortId = req.params.shortId;
+
+    await URL.deleteOne({
+        shortId,
+        createdBy: req.user._id,
+    });
+
+    return res.redirect("/");
+}
+
 
 module.exports = {
     handleGenerateNewShortURL,
     handleGetAnalytics,
+    handleDeleteURL,
 };

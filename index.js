@@ -1,23 +1,42 @@
+require("dotenv").config();
 const express = require("express");
-
+const path = require('path');
 const { connectToMongoDB } = require("./connect");
-const urlRoute = require('./routes/url');
+const {restrictToLoggedinUserOnly, checkAuth}= require("./middlewares/auth")
+const cookieParser = require("cookie-parser");
+const { handleGuestLogin } = require('./controller/user');
+
+
 const URL = require('./models/url');
 
+const urlRoute = require('./routes/url');
+const staticRouter = require('./routes/staticRouter');
+const userRoute = require('./routes/user');
 
 const app = express();
-const port = 8001;
-
+const port = process.env.PORT || 8001;
 // ✅ Correct DB connection handling
-connectToMongoDB("mongodb://127.0.0.1:27017/short-url")
+// console.log(process.env.MONGO_URL);
+connectToMongoDB(process.env.MONGO_URL)
 .then(() => console.log("MongoDB connected"))
 .catch((err) => console.log("MongoDB error:", err));
 
+app.set('view engine', "ejs");
+app.set('views',path.resolve("./views"));
+
 // ✅ Middleware to read JSON
 app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+app.use(cookieParser());
 
 // ✅ Correct route + correct variable name
-app.use('/url', urlRoute);
+app.use('/url',restrictToLoggedinUserOnly, urlRoute);
+
+app.use('/user', userRoute);
+
+app.use('/',checkAuth,staticRouter);
+
+app.get('/guest', handleGuestLogin);
 
 app.get('/:shortId', async (req, res) => {
     const shortId = req.params.shortId;
